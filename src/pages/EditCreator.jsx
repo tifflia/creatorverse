@@ -1,16 +1,26 @@
 import {useState, useEffect} from 'react'
-// import { useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import './EditCreator.css'
 import { supabase } from '../client'
 
 const EditCreator = () => {
 
-    // const {id} = useParams()
+    const {id} = useParams()
     const [creator, setCreator] = useState({id: null, name: "", url: "", description: "", imageURL: ""})
 
-    // useEffect(() => {
-    //     // fetch the creator data from Supabase based on the id from the URL
-    // }, [id])
+    useEffect(() => {
+        const fetchCreator = async () => {
+            const { data } = await supabase
+                .from('creators')
+                .select()
+                .eq('id', id)
+                .single()
+            if (data) {
+                setCreator(data)
+            }
+        }
+        fetchCreator()
+    }, [id])
 
     const handleChange = (event) => {
         const {name, value} = event.target
@@ -18,11 +28,21 @@ const EditCreator = () => {
     }
 
     const updatePost = async (event) => {
-        //update the creator data in Supabase
+        event.preventDefault();
+        await supabase
+            .from('creators')
+            .update({name: creator.name, url: creator.url, description: creator.description, imageURL: creator.imageURL})
+            .eq('id', id);
+        window.location = "/";
     }
 
-    const deletePost = async (event) => {
-        //delete the creator data in Supabase
+    const deleteCreator = async (event) => {
+        event.preventDefault();
+        await supabase
+            .from('creators')
+            .delete()
+            .eq('id', id);
+        window.location = "/";
     }
 
     return (
@@ -49,7 +69,7 @@ const EditCreator = () => {
                 <br/>
 
                 <input type="submit" value="Submit" onClick={updatePost} />
-                <button className="deleteButton" onClick={deletePost}>
+                <button className="deleteButton" onClick={deleteCreator}>
                     Delete
                 </button>
             </form>

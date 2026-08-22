@@ -1,24 +1,37 @@
 import {useState, useEffect} from 'react'
-// import { useParams } from 'react-router-dom'
+import { useParams, Link } from 'react-router-dom'
 import './ViewCreator.css'
 import { supabase } from '../client'
 import { Button } from 'bootstrap'
-import { Link } from 'react-router-dom'
 
 const ViewCreator = () => {
 
-    // const {id} = useParams()
+    const {id} = useParams()
     const [creator, setCreator] = useState({id: null, name: "", url: "", description: "", imageURL: ""})
 
-    // useEffect(() => {
-    //     // fetch the creator data from Supabase based on the id from the URL
-    // }, [id])
+    useEffect(() => {
+        const fetchCreator = async () => {
+            const { data } = await supabase
+                .from('creators')
+                .select()
+                .eq('id', id)
+                .single()
+            if (data) {
+                setCreator(data)
+            }
+        }
+        fetchCreator()
+    }, [id])
 
-    const deletePost = async (event) => {
-        //delete the creator data in Supabase
+    const deleteCreator = async (event) => {
+        event.preventDefault();
+        await supabase
+            .from('creators')
+            .delete()
+            .eq('id', id);
+        window.location = "/";
     }
 
-    // TODO: link to edit/ + id
     return (
         <div>
             <h2 className="name">{creator.name}</h2>
@@ -26,8 +39,8 @@ const ViewCreator = () => {
             <p className="description">{creator.description}</p>
             <img className="image" src={creator.imageURL} alt={creator.name} />
             <div>
-                <Link><button className="editButton">Edit</button></Link>
-                <button className="deleteButton" onClick={deletePost}>
+                <Link to={'/edit/' + id}><button className="editButton">Edit</button></Link>
+                <button className="deleteButton" onClick={deleteCreator}>
                     Delete
                 </button>
             </div>

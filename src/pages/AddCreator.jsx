@@ -11,8 +11,13 @@ const AddCreator = () => {
         setCreator(prev => ({...prev, [name]: value}))
     }
 
-    const createPost = async (event) => {
-        //create the creator entry in Supabase
+    const addCreator = async (event) => {
+        event.preventDefault();
+        await supabase
+            .from('creators')
+            .insert({name: creator.name, url: creator.url, description: creator.description, imageURL: creator.imageURL})
+            .select();
+        window.location = "/";
     }
 
     return (
@@ -38,7 +43,7 @@ const AddCreator = () => {
                 <input type="text" id="imageURL" name="imageURL" onChange={handleChange} /><br />
                 <br/>
 
-                <input type="submit" value="Submit" onClick={createPost} />
+                <input type="submit" value="Submit" onClick={addCreator} />
             </form>
         </div>
     );

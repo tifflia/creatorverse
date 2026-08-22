@@ -2,14 +2,19 @@ import { useState, useEffect } from 'react'
 import Card from '../components/Card'
 import { supabase } from '../client'
 
-const ShowCreators = (props) => {
+const ShowCreators = () => {
 
     const [creators, setCreators] = useState([])
 
     useEffect(() => {
-        // fetch the list of creators from Supabase
-        setCreators(props.data)
-    }, [props]) //placeholder props
+        const fetchCreators = async () => {
+            const { data } = await supabase
+            .from('creators')
+            .select()
+            setCreators(data)
+        }
+        fetchCreators()
+    }, [])
 
     return (
         <div className="ShowCreators">
