@@ -1,5 +1,6 @@
 import './Card.css'
 import { supabase } from '../client'
+import { Link } from 'react-router-dom';
 
 // name, url, description, imageURL
 
@@ -16,7 +17,8 @@ const Card = (props) => {
 
     return(
         <div className="Card">
-            <h2 className="name">name: {props.name}</h2>
+            <Link to={'edit/' + props.id}>edit</Link>
+            <Link to={'creator/' + props.id}><h2 className="name">{props.name}</h2></Link>
             <h3 className="url">{props.url}</h3>
             <p className="description">{props.description}</p>
             <img className="image" src={props.imageURL} alt={props.name} />

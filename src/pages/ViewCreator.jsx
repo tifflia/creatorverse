@@ -3,6 +3,7 @@ import {useState, useEffect} from 'react'
 import './ViewCreator.css'
 import { supabase } from '../client'
 import { Button } from 'bootstrap'
+import { Link } from 'react-router-dom'
 
 const ViewCreator = () => {
 
@@ -17,6 +18,7 @@ const ViewCreator = () => {
         //delete the creator data in Supabase
     }
 
+    // TODO: link to edit/ + id
     return (
         <div>
             <h2 className="name">{creator.name}</h2>
@@ -24,9 +26,7 @@ const ViewCreator = () => {
             <p className="description">{creator.description}</p>
             <img className="image" src={creator.imageURL} alt={creator.name} />
             <div>
-                <button className="editButton">
-                    Edit
-                </button>
+                <Link><button className="editButton">Edit</button></Link>
                 <button className="deleteButton" onClick={deletePost}>
                     Delete
                 </button>

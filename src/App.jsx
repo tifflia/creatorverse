@@ -1,4 +1,5 @@
 import './App.css'
+import { useRoutes, Link } from 'react-router-dom'
 import AddCreator from './pages/AddCreator';
 import EditCreator from './pages/EditCreator';
 import ShowCreators from './pages/ShowCreators';
@@ -31,8 +32,33 @@ function App() {
       'imageURL': 'https://images.squarespace-cdn.com/content/v1/5faee21c90a41a74ef33d555/1605809519145-L51PASYBKD417M7U0JY7/DSC06341+2.jpeg'},
   ]
 
+  let element = useRoutes([
+    {
+      path: "/",
+      element:<ShowCreators data={creators}/>
+    },
+    {
+      path: "/creator/:id",
+      element:<ViewCreator />
+    },
+    {
+      path:"/edit/:id",
+      element: <EditCreator />
+    },
+    {
+      path:"/new",
+      element: <AddCreator />
+    }
+  ]);
+
   return (
     <div className="App">
+      <div className="header">
+        <h1>Creatorverse</h1>
+        <Link to="/"><button className="headerBtn">View All Creators</button></Link>
+        <Link to="/new"><button className="headerBtn">Add a Creator</button></Link>
+      </div>
+      {element}
     </div>
   )
 }
