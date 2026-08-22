@@ -1,0 +1,23 @@
+.ShowCreators {
+    display: grid;
+    grid-auto-flow: row;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 48px;
+    /* caps the columns at ~430px each so cards stay narrow on wide screens */
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 112px 40px 96px;
+    box-sizing: border-box;
+
+    /* the "no creators yet" heading is the only child — span both columns */
+    & > h2 {
+        grid-column: 1 / -1;
+        padding: 40px 0;
+    }
+
+    @media (max-width: 820px) {
+        grid-template-columns: 1fr;
+        gap: 32px;
+        padding: 72px 24px 64px;
+    }
+}

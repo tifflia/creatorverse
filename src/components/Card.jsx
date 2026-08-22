@@ -1,28 +1,55 @@
 import './Card.css'
-import { supabase } from '../client'
 import { Link } from 'react-router-dom';
+import editIcon from '../assets/edit.png';
+import infoIcon from '../assets/info.png';
+import { prettyUrl, fullUrl } from '../urls';
 
 // name, url, description, imageURL
 
+// escape only what could break out of url("..."), so already-encoded
+// characters in the URL (%2C, %20, ...) are left alone
+const cssUrl = (url) => url.replace(/["\\\n\r]/g, encodeURIComponent);
+
 const Card = (props) => {
 
-    const updateCount = async (event) => {
-        event.preventDefault();
-        await supabase
-          .from('Posts')
-          .update({betCount: count + 1})
-          .eq('id', props.id);
-        setCount((count) => count + 1)
-    }
-
     return(
-        <div className="Card">
-            <Link to={'edit/' + props.id}>edit</Link>
-            <Link to={'creator/' + props.id}><h2 className="name">{props.name}</h2></Link>
-            <h3 className="url">{props.url}</h3>
-            <p className="description">{props.description}</p>
-            <img className="image" src={props.imageURL} alt={props.name} />
-        </div>
+        <article
+            className="Card"
+            style={props.imageURL
+                ? { backgroundImage: `url("${cssUrl(props.imageURL)}")` }
+                : undefined}
+        >
+            <div className="cardActions">
+                <Link
+                    className="cardAction"
+                    to={'/creator/' + props.id}
+                    aria-label={'View ' + props.name}
+                >
+                    <img src={infoIcon} alt="" />
+                </Link>
+                <Link
+                    className="cardAction"
+                    to={'/edit/' + props.id}
+                    aria-label={'Edit ' + props.name}
+                >
+                    <img src={editIcon} alt="" />
+                </Link>
+            </div>
+            <div className="cardBody">
+                <h2 className="name">{props.name}</h2>
+                {props.url &&
+                    <a
+                        className="url"
+                        href={fullUrl(props.url)}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        {prettyUrl(props.url)}
+                    </a>
+                }
+                <p className="description">{props.description}</p>
+            </div>
+        </article>
     );
 };
 

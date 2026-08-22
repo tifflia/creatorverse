@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import Card from '../components/Card'
 import { supabase } from '../client'
+import './ShowCreators.css'
 
 const ShowCreators = () => {
 

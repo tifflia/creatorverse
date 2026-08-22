@@ -1,6 +1,6 @@
 import {useState, useEffect} from 'react'
 import { useParams } from 'react-router-dom'
-import './EditCreator.css'
+import './CreatorForm.css'
 import { supabase } from '../client'
 
 const EditCreator = () => {
@@ -46,32 +46,37 @@ const EditCreator = () => {
     }
 
     return (
-        <div>
+        <div className="CreatorForm">
             <form>
-                <label htmlFor="name">Name</label> <br />
-                <input type="text" id="name" name="name" value={creator.name} onChange={handleChange} /><br />
-                <br/>
+                <div className="field">
+                    <label htmlFor="name">Name</label>
+                    <input type="text" id="name" name="name" value={creator.name} onChange={handleChange} />
+                </div>
 
-                <label htmlFor="url">URL</label><br />
-                <p htmlFor="url">Provide a link to the creator's website or social media profile.</p> <br />
-                <input type="text" id="url" name="url" value={creator.url} onChange={handleChange} /><br />
-                <br/>
+                <div className="field">
+                    <label htmlFor="url">URL</label>
+                    <p className="hint">Provide a link to the creator's website or social media profile.</p>
+                    <input type="text" id="url" name="url" value={creator.url} onChange={handleChange} />
+                </div>
 
-                <label htmlFor="description">Description</label><br />
-                <p htmlFor="description">Provide a description of the creator. Who are they? What makes them interesting?</p> <br />
-                <textarea rows="5" cols="50" id="description" name="description" value={creator.description} onChange={handleChange} >
-                </textarea>
-                <br/>
+                <div className="field">
+                    <label htmlFor="description">Description</label>
+                    <p className="hint">Provide a description of the creator. Who are they? What makes them interesting?</p>
+                    <textarea rows="5" id="description" name="description" value={creator.description} onChange={handleChange} />
+                </div>
 
-                <label htmlFor="imageURL">Image URL</label><br />
-                <p htmlFor="imageURL">Provide a link to an image of your creator. Be sure to include the http://</p> <br />
-                <input type="text" id="imageURL" name="imageURL" value={creator.imageURL} onChange={handleChange} /><br />
-                <br/>
+                <div className="field">
+                    <label htmlFor="imageURL">Image URL</label>
+                    <p className="hint">Provide a link to an image of your creator. Be sure to include the http://</p>
+                    <input type="text" id="imageURL" name="imageURL" value={creator.imageURL} onChange={handleChange} />
+                </div>
 
-                <input type="submit" value="Submit" onClick={updatePost} />
-                <button className="deleteButton" onClick={deleteCreator}>
-                    Delete
-                </button>
+                <div className="formActions">
+                    <input type="submit" value="Submit" onClick={updatePost} />
+                    <button className="deleteButton" onClick={deleteCreator}>
+                        Delete
+                    </button>
+                </div>
             </form>
         </div>
     );

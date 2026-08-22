@@ -1,0 +1,122 @@
+/* Shared by AddCreator and EditCreator — the two pages render the same form.
+   Margins mirror .ShowCreators so the pages line up with the card grid. */
+
+.CreatorForm {
+    width: 100%;
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 112px 40px 96px;
+    box-sizing: border-box;
+    text-align: left;
+
+    @media (max-width: 820px) {
+        padding: 72px 24px 64px;
+    }
+}
+
+.CreatorForm .field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 32px;
+}
+
+.CreatorForm label {
+    font-family: var(--heading);
+    font-weight: 600;
+    font-size: 20px;
+    letter-spacing: -0.2px;
+    color: var(--text-h);
+}
+
+.CreatorForm .hint {
+    font-size: 15px;
+    line-height: 145%;
+    color: var(--text);
+}
+
+.CreatorForm input[type='text'],
+.CreatorForm textarea {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 14px 16px;
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    background: var(--bg);
+    color: var(--text-h);
+    font: 400 17px/145% var(--sans);
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+
+    &::placeholder {
+        color: var(--text);
+    }
+
+    &:hover {
+        border-color: var(--accent-border);
+    }
+
+    &:focus {
+        outline: none;
+        border-color: var(--accent);
+        box-shadow: 0 0 0 4px var(--accent-bg);
+    }
+}
+
+.CreatorForm textarea {
+    min-height: 150px;
+    resize: vertical;
+}
+
+.CreatorForm .formActions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 40px;
+}
+
+.CreatorForm input[type='submit'],
+.CreatorForm .deleteButton {
+    font: 500 17px/1 var(--sans);
+    padding: 14px 32px;
+    border-radius: 999px;
+    cursor: pointer;
+    transition:
+        transform 0.2s ease,
+        background 0.2s ease,
+        box-shadow 0.2s ease;
+
+    &:hover {
+        transform: translateY(-2px);
+    }
+    &:active {
+        transform: translateY(0);
+    }
+    &:focus-visible {
+        outline: 3px solid var(--accent);
+        outline-offset: 3px;
+    }
+}
+
+.CreatorForm input[type='submit'] {
+    color: #fff;
+    background: var(--accent);
+    border: 1.5px solid var(--accent);
+
+    &:hover {
+        box-shadow: 0 10px 24px var(--accent-bg);
+    }
+}
+
+.CreatorForm .deleteButton {
+    color: var(--text);
+    background: transparent;
+    border: 1.5px solid var(--border);
+
+    &:hover {
+        color: #fff;
+        background: #d1344f;
+        border-color: #d1344f;
+    }
+}

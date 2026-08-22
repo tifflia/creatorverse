@@ -29,11 +29,15 @@ function App() {
 
   return (
     <div className="App">
-      <div className="header">
-        <h1>Creatorverse</h1>
-        <Link to="/"><button className="headerBtn">View All Creators</button></Link>
-        <Link to="/new"><button className="headerBtn">Add a Creator</button></Link>
-      </div>
+      <header className="header">
+        <div className="headerContent">
+          <h1>Creatorverse</h1>
+          <nav className="headerNav">
+            <Link to="/"><button className="headerBtn">View All Creators</button></Link>
+            <Link to="/new"><button className="headerBtn headerBtnPrimary">Add a Creator</button></Link>
+          </nav>
+        </div>
+      </header>
       {element}
     </div>
   )
