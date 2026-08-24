@@ -1,57 +1,57 @@
-# Creatorverse
+# WEB103 Prework - *Creatorverse*
 
-A React app for keeping track of your favorite content creators. Browse a gallery of creators, open any one of them for a detail view, and add, edit, or delete entries. All data is stored in a Supabase Postgres table and persists between sessions.
+Submitted by: **Tiffany Liang**
 
-## Demo
+About this web app: **A React app for keeping track of your favorite content creators. Browse a gallery of creators, open any one of them for a detail view, and add, edit, or delete entries. All data is stored in a Supabase Postgres table and persists between sessions.**
+
+Time spent: **8** hours
+
+## Required Features
+
+The following **required** functionality is completed:
+
+- [x] **A logical component structure in React is used to create the frontend of the app**
+- [x] **At least five content creators are displayed on the homepage of the app**
+- [x] **Each content creator item includes their name, a link to their channel/page, and a short description of their content**
+- [x] **API calls use the async/await design pattern via Axios or fetch()**
+- [x] **Clicking on a content creator item takes the user to their details page, which includes their name, url, and description**
+- [x] **Each content creator has their own unique URL**
+- [x] **The user can edit a content creator to change their name, url, or description**
+- [x] **The user can delete a content creator**
+- [x] **The user can add a new content creator by entering a name, url, or description and then it is displayed on the homepage**
+
+The following **optional** features are implemented:
+
+- [ ] Picocss is used to style HTML elements
+- [x] The content creator items are displayed in a creative format, like cards instead of a list
+- [x] An image of each content creator is shown on their content creator card
+
+The following **additional** features are implemented:
+
+* [x] A custom 404 page for any URL that doesn't match a route, with a link back to the gallery
+* [x] Creator URLs are cleaned up for display (protocol, `www.`, and trailing slash stripped) while the actual link is normalized with `https://` so it isn't treated as a relative path — shared between the card and detail view in `src/urls.js`
+* [x] Fully custom CSS (background image, card layout, form styling) instead of a component library
+
+## Video Walkthrough
 
 ![Creatorverse walkthrough](docs/demo.gif)
 
-## Tech stack
+## Notes
 
-| Piece | What it's used for |
-| --- | --- |
-| React 19 | UI components and state |
-| Vite | Dev server and production build |
-| React Router 7 | Client-side routing via `useRoutes` |
-| Supabase | Hosted Postgres database + JS client |
-| Oxlint | Linting |
+The hardest part of this project was figuring out how all four pages fit together and what information had to travel along each link. Writing the individual components felt straightforward, but I also had to decide what each route's path should look like, which paths needed a dynamic segment, and where the catch-all belonged.
 
-## Completed features
+The bigger conceptual hurdle was working out **what gets passed through a link versus what gets passed through props**. At first I assumed the detail page could just receive the creator object the way `Card` does, since the homepage already had all the data. But a link only carries a URL, so the only thing that survives a click is whatever I encode in the path (the id).
 
-- [x] **Logical component structure in React.** Routing lives in [`App.jsx`](src/App.jsx), each screen is a page in [`src/pages/`](src/pages/), and the reusable creator tile is [`Card.jsx`](src/components/Card.jsx). URL formatting helpers shared by the card and the detail page are factored into [`src/urls.js`](src/urls.js), and the Supabase client is created once in [`src/client.js`](src/client.js) and imported where needed.
-- [x] **At least five content creators on the homepage.** The `creators` table is seeded with five: Drew Afualo, Caleb Hearon, Brittany Broski, Julien Solomita, and Vanilla Mace. [`ShowCreators.jsx`](src/pages/ShowCreators.jsx) fetches all rows and renders them into a two-column grid.
-- [x] **Each item shows a name, a link, and a short description.** See [`Card.jsx`](src/components/Card.jsx). The link is displayed as a pill showing a cleaned-up version of the URL and opens the creator's real page in a new tab.
-- [x] **API calls use the async/await design pattern.** Every read and write is an `async` function using `await`.
-- [x] **Clicking a creator opens their details page.** The ⓘ button on each card links to that creator's detail page. (See the note below.)
-- [x] **Every content creator has a unique URL.** Detail pages are routed at `/creator/:id` and edit pages at `/edit/:id`, where `id` is the row's primary key, so each creator is directly linkable and reloadable.
-- [x] **Details page shows name, url, and description.** [`ViewCreator.jsx`](src/pages/ViewCreator.jsx) reads the `:id` route param, fetches that single row, and lays the photo out on the left with the name, link, and description on the right.
-- [x] **The user can edit a creator's name, url, or description.** [`EditCreator.jsx`](src/pages/EditCreator.jsx) loads the existing values into a pre-filled form and writes changes back with a Supabase `update` scoped to the id. Image URL is editable too.
-- [x] **The user can delete a creator.** Available from the edit page. Runs a Supabase `delete` on that id and returns to the homepage.
-- [x] **The user can add a new creator.** [`AddCreator.jsx`](src/pages/AddCreator.jsx) collects name, url, description, and image URL and inserts a new row.
-- [x] **A newly added creator appears in the list.** After a successful insert the app navigates to `/`, and `ShowCreators` refetches the table on mount, so the new creator shows up in the grid immediately.
+- `ShowCreators` fetches every creator and passes each one's fields down to `Card` as props, because they're rendered together in the same tree.
+- `Card` doesn't hold data itself. It just reads props and builds links out of the id it was given: `/creator/{id}` and `/edit/{id}`.
+- `ViewCreator` and `EditCreator` receive *nothing* as props. They pull the id out of the URL with `useParams()` and re-fetch that one row from Supabase themselves.
 
-## Project structure
+## License
 
-```
-src/
-├── App.jsx              route table (useRoutes)
-├── App.css              hero banner + header buttons
-├── client.js            Supabase client
-├── index.css            design tokens (colors, fonts) + global resets
-├── urls.js              shared URL formatting helpers
-├── main.jsx             entry point, BrowserRouter
-├── assets/              bg.jpg, edit.png, info.png
-├── components/
-│   ├── Card.jsx         creator tile used on the homepage
-│   └── Card.css
-└── pages/
-    ├── ShowCreators.jsx  homepage grid
-    ├── ShowCreators.css
-    ├── ViewCreator.jsx   /creator/:id detail page
-    ├── ViewCreator.css
-    ├── AddCreator.jsx    /new
-    ├── EditCreator.jsx   /edit/:id
-    ├── CreatorForm.css   shared styles for the add + edit forms
-    ├── NoMatch.jsx       catch-all 404
-    └── NoMatch.css
-```
+Copyright [2026] [Tiffany Liang]
+
+Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at
+
+> http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
