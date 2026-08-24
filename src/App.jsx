@@ -4,10 +4,10 @@ import AddCreator from './pages/AddCreator';
 import EditCreator from './pages/EditCreator';
 import ShowCreators from './pages/ShowCreators';
 import ViewCreator from './pages/ViewCreator';
+import NoMatch from './pages/NoMatch';
 
 function App() {
 
-  // TODO: add a no match case
   let element = useRoutes([
     {
       path: "/",
@@ -24,6 +24,10 @@ function App() {
     {
       path:"/new",
       element: <AddCreator />
+    },
+    {
+      path: "*",
+      element: <NoMatch />
     }
   ]);
 
